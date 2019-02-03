@@ -1,0 +1,1 @@
+These Projects comprise of exercises that demonstrate to Holberton Students the utility and power of redirecting data within the shell.
