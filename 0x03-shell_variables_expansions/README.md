@@ -1,0 +1,1 @@
+Project utilizing various scripts that demonstrate Expansions, Shell Arithmetic, Variables, Shell initialization files, and The alias Command.
