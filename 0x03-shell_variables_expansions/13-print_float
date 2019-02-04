@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(printf %.4f NUM)
+echo $(printf %.2f NUM)
