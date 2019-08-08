@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script configures an Nginx server so that /redirect_me is redirecting to another page
+# Configure your Nginx server so that /redirect_me is redirecting to another page.
 apt-get update
 apt-get -y install nginx
 ufw allow 'Nginx HTTP'
