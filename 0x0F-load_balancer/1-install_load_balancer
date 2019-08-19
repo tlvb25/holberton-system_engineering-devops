@@ -14,6 +14,6 @@ frontend haproxynode
     default_backend web-servers
 backend web-servers
         balance roundrobin
-        server 419-web-01 35.237.201.27 check
-        server 419-web-02 35.243.139.79 check" >> /etc/haproxy/haproxy.cfg
+        server 638-web-01 35.237.156.23 check
+        server 638-web-02 35.185.70.190 check" >> /etc/haproxy/haproxy.cfg
 service haproxy restart
