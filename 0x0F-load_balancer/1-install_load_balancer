@@ -8,9 +8,6 @@ apt-get update
 apt-get install haproxy=2.0.\*
 
 echo "
-ENABLED=1" | sudo tee -a /etc/default/haproxy
-
-echo "
 frontend haproxynode
     bind *:80
     mode http
