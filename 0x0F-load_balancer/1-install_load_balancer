@@ -6,7 +6,7 @@ add-apt-repository ppa:vbernat/haproxy-2.0
 
 apt-get -y update
 apt-get install -y haproxy=2.0.\*
-
+echo "ENABLED=1" >> /etc/default/haproxy
 echo "
 frontend haproxynode
     bind *:80
