@@ -34,31 +34,21 @@ defaults
 	errorfile 500 /etc/haproxy/errors/500.http
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
-	errorfile 504 /etc/haproxy/errors/504.http
-
-frontend haproxynode
-	bind *:80
-	mode http
-	default_backend web-servers
-
-backend web-servers
-        balance roundrobin
-        server 638-web-01 35.237.156.23 check
-        server 638-web-02 35.185.70.190 check 
+	errorfile 504 /etc/haproxy/errors/504.http 
 
 backend web-backend
         redirect scheme https if !{ ssl_fc }
         balance roundrobin
-	server 638-web-01 35.237.156.23 check
-        server 638-web-02 35.185.70.190 check 
+	    server 638-web-01 35.237.156.23 check
+        server 638-web-02 35.185.70.190 check
+
+frontend www-https
+        bind :443 ssl crt /etc/haproxy/ssl/www.thebeginning.tech.pem
+        reqadd X-Forwarded-Proto:\ https
+        default_backend web-backend 
 
 frontend www-http
         bind :80
         reqadd X-Forwarded-Proto:\ http
         mode http
-        default_backend web-backend
-
-frontend www-https
-        bind :443 ssl crt /etc/haproxy/ssl/www.thebeginning.tech.pem
-        reqadd X-Forwarded-Proto:\ https
         default_backend web-backend
