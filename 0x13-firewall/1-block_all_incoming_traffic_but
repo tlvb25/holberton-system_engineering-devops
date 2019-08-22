@@ -1,1 +1,5 @@
-#!/usr/bin/env bash
+sudo ufw app list
+sudo sudo ufw status verbose
+sudo ufw allow 'NGINX HTTP'
+sudo ufw allow 'OpenSSH'
+sudo ufw allow 'Nginx HTTPS'
