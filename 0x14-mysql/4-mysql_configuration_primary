@@ -1,0 +1,1562 @@
+Last login: Thu Sep  5 13:31:38 on ttys000
+MacBook-Air:~ tbrooks$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Checking if box 'ubuntu/trusty64' version '20190116.1.0' is up to date...
+==> default: A newer version of the box 'ubuntu/trusty64' for provider 'virtualbox' is
+==> default: available! You currently have version '20190116.1.0'. The latest is version
+==> default: '20190429.0.1'. Run `vagrant box update` to update.
+==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> default: flag to force provisioning. Provisioners marked to run always will still run.
+MacBook-Air:~ tbrooks$ vagrant ssh
+Welcome to Ubuntu 14.04.6 LTS (GNU/Linux 4.4.0-148-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Thu Sep  5 05:23:07 UTC 2019
+
+  System load:  0.16              Processes:              95
+  Usage of /:   9.7% of 39.34GB   Users logged in:        1
+  Memory usage: 65%               IP address for eth0:    10.0.2.15
+  Swap usage:   0%                IP address for docker0: 172.17.42.1
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+New release '16.04.6 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+Your Hardware Enablement Stack (HWE) is supported until April 2019.
+
+Last login: Thu Sep  5 05:23:08 2019 from 10.0.2.2
+vagrant@vagrant-ubuntu-trusty-64:~$ cd *v2
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  24314      0 --:--:-- --:--:-- --:--:-- 24335
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 20:35:25,673] ERROR in app: Exception on /states_list [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.OperationalError: (1054, "Unknown column 'State' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/7-states_list.py", line 51, in run_all_states
+    l = storage.all('State')
+  File "/home/vagrant/AirBnB_clone_v2/models/engine/db_storage.py", line 49, in all
+    results = self.__session.query(cls).all()
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2737, in all
+    return list(self)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2889, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2912, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/sql/elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'State' in 'field list'") [SQL: 'SELECT State'] (Background on this error at: http://sqlalche.me/e/e3q8)
+127.0.0.1 - - [05/Sep/2019 20:35:25] "GET /states_list HTTP/1.1" 500 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https:s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  25382      0 --:--:-- --:--:-- --:--:-- 25463
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 20:49:00,141] ERROR in app: Exception on /states_list [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.OperationalError: (1054, "Unknown column 'State' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/7-states_list.py", line 51, in run_all_states
+    l = storage.all('State')
+  File "/home/vagrant/AirBnB_clone_v2/models/engine/db_storage.py", line 49, in all
+    results = self.__session.query(cls).all()
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2737, in all
+    return list(self)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2889, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2912, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/sql/elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'State' in 'field list'") [SQL: 'SELECT State'] (Background on this error at: http://sqlalche.me/e/e3q8)
+127.0.0.1 - - [05/Sep/2019 20:49:00] "GET /states_list HTTP/1.1" 500 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https:s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  23337      0 --:--:-- --:--:-- --:--:-- 23364
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [05/Sep/2019 21:38:03] "GET /states_list HTTP/1.1" 200 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https:s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  20813      0 --:--:-- --:--:-- --:--:-- 20866
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.9-states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "9-states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 22:18:55,705] ERROR in app: Exception on /states [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/9-states.py", line 20, in show_states
+    storage=storage.all("State").values())
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 135, in render_template
+    context, ctx.app)
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 117, in _render
+    rv = template.render(context)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/templates/7-states_list.html", line 9, in top-level template code
+    {%- for value in l.values()|sort(attribute='name') %}
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 430, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'l' is undefined
+127.0.0.1 - - [05/Sep/2019 22:18:55] "GET /states HTTP/1.1" 500 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 6 (delta 5), reused 6 (delta 5), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   adbbba2..9fc4c4c  master     -> origin/master
+Updating adbbba2..9fc4c4c
+Fast-forward
+ models/state.py       | 5 +++--
+ web_flask/9-states.py | 8 ++++----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cd *flask
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ pep8 *
+/usr/local/lib/python3.4/dist-packages/pep8.py:2124: UserWarning: 
+
+pep8 has been renamed to pycodestyle (GitHub issue #466)
+Use of the pep8 tool will be removed in a future release.
+Please install and use `pycodestyle` instead.
+
+$ pip install pycodestyle
+$ pycodestyle ...
+
+  '\n\n'
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ cd ..
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.9-states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "9-states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 22:20:58,586] ERROR in app: Exception on /states [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/9-states.py", line 20, in show_states
+    storage=storage.all("State").values())
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 135, in render_template
+    context, ctx.app)
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 117, in _render
+    rv = template.render(context)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/templates/7-states_list.html", line 9, in top-level template code
+    {%- for value in l.values()|sort(attribute='name') %}
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 430, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'l' is undefined
+127.0.0.1 - - [05/Sep/2019 22:20:58] "GET /states HTTP/1.1" 500 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cd *flask
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ ls
+0-hello_route.py    3-python_route.py        7-states_list.py       __pycache__
+10-hbnb_filters.py  4-number_route.py        8-cities_by_states.py  README.md
+1-hbnb_route.py     5-number_template.py     9-states.py            templates
+2-c_route.py        6-number_odd_or_even.py  __init__.py
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ pep8 9-states.py 
+/usr/local/lib/python3.4/dist-packages/pep8.py:2124: UserWarning: 
+
+pep8 has been renamed to pycodestyle (GitHub issue #466)
+Use of the pep8 tool will be removed in a future release.
+Please install and use `pycodestyle` instead.
+
+$ pip install pycodestyle
+$ pycodestyle ...
+
+  '\n\n'
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ git pull
+remote: Enumerating objects: 17, done.
+remote: Counting objects: 100% (17/17), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 9 (delta 8), reused 9 (delta 8), pack-reused 0
+Unpacking objects: 100% (9/9), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   9fc4c4c..ab38734  master     -> origin/master
+Updating 9fc4c4c..ab38734
+Fast-forward
+ web_flask/7-states_list.py                  |  4 ++--
+ web_flask/8-cities_by_states.py             |  4 ++--
+ web_flask/9-states.py                       | 10 +++++-----
+ web_flask/templates/7-states_list.html      |  2 +-
+ web_flask/templates/8-cities_by_states.html |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ cd ..
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  23256      0 --:--:-- --:--:-- --:--:-- 23302
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 22:56:02,658] ERROR in app: Exception on /states_list [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/7-states_list.py", line 51, in run_all_states
+    storage = storage.all('State')
+UnboundLocalError: local variable 'storage' referenced before assignment
+127.0.0.1 - - [05/Sep/2019 22:56:02] "GET /states_list HTTP/1.1" 500 -
+[2019-09-05 22:58:48,510] ERROR in app: Exception on /states_list [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/7-states_list.py", line 51, in run_all_states
+    storage = storage.all('State')
+UnboundLocalError: local variable 'storage' referenced before assignment
+127.0.0.1 - - [05/Sep/2019 22:58:48] "GET /states_list HTTP/1.1" 500 -
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  24201      0 --:--:-- --:--:-- --:--:-- 24201
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  26711      0 --:--:-- --:--:-- --:--:-- 26702
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 22:59:37,151] ERROR in app: Exception on /states_list [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/7-states_list.py", line 51, in run_all_states
+    storage = storage.all('State')
+UnboundLocalError: local variable 'storage' referenced before assignment
+127.0.0.1 - - [05/Sep/2019 22:59:37] "GET /states_list HTTP/1.1" 500 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 15, done.
+remote: Counting objects: 100% (15/15), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 10 (delta 8), reused 10 (delta 8), pack-reused 0
+Unpacking objects: 100% (10/10), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   ab38734..ae7a6b1  master     -> origin/master
+Updating ab38734..ae7a6b1
+Fast-forward
+ web_flask/7-states_list.py             | 4 ++--
+ web_flask/templates/7-states_list.html | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  24248      0 --:--:-- --:--:-- --:--:-- 24201
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.7-states_list
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "7-states_list" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [05/Sep/2019 23:01:41] "GET /states_list HTTP/1.1" 200 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 6 (delta 5), reused 6 (delta 5), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   ae7a6b1..36276c4  master     -> origin/master
+Updating ae7a6b1..36276c4
+Fast-forward
+ web_flask/8-cities_by_states.py             | 4 ++--
+ web_flask/templates/8-cities_by_states.html | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  24219      0 --:--:-- --:--:-- --:--:-- 24201
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.8-cities_by_states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "8-cities_by_states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [05/Sep/2019 23:05:24] "GET /cities_by_states HTTP/1.1" 200 -
+^Cvagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 6 (delta 5), reused 6 (delta 5), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   36276c4..914f349  master     -> origin/master
+Updating 36276c4..914f349
+Fast-forward
+ web_flask/9-states.py             | 8 ++++----
+ web_flask/templates/9-states.html | 6 +++---
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  25635      0 --:--:-- --:--:-- --:--:-- 25687
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.9-states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "9-states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[2019-09-05 23:11:56,677] ERROR in app: Exception on /states [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 2317, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1840, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1743, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/flask/_compat.py", line 36, in reraise
+    raise value
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1838, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1824, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/9-states.py", line 20, in show_OnlyStates
+    return render_template('7-states_list.html', records=records)
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 135, in render_template
+    context, ctx.app)
+  File "/usr/local/lib/python3.4/dist-packages/flask/templating.py", line 117, in _render
+    rv = template.render(context)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.4/dist-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/templates/7-states_list.html", line 9, in top-level template code
+    {%- for value in records.values()|sort(attribute='name') %}
+jinja2.exceptions.UndefinedError: 'dict_values object' has no attribute 'values'
+127.0.0.1 - - [05/Sep/2019 23:11:56] "GET /states HTTP/1.1" 500 -
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+MacBook-Air:~ tbrooks$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Checking if box 'ubuntu/trusty64' version '20190116.1.0' is up to date...
+==> default: A newer version of the box 'ubuntu/trusty64' for provider 'virtualbox' is
+==> default: available! You currently have version '20190116.1.0'. The latest is version
+==> default: '20190429.0.1'. Run `vagrant box update` to update.
+==> default: Resuming suspended VM...
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+==> default: Machine booted and ready!
+==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> default: flag to force provisioning. Provisioners marked to run always will still run.
+MacBook-Air:~ tbrooks$ vagrant ssh
+Welcome to Ubuntu 14.04.6 LTS (GNU/Linux 4.4.0-148-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Thu Sep  5 23:30:59 UTC 2019
+
+  System load:  0.02              Processes:              98
+  Usage of /:   9.7% of 39.34GB   Users logged in:        1
+  Memory usage: 69%               IP address for eth0:    10.0.2.15
+  Swap usage:   0%                IP address for docker0: 172.17.42.1
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+New release '16.04.6 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+Your Hardware Enablement Stack (HWE) is supported until April 2019.
+
+Last login: Thu Sep  5 20:32:39 2019 from 10.0.2.2
+vagrant@vagrant-ubuntu-trusty-64:~$ cd *v2
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cd *flask
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ cd ..
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 6 (delta 5), reused 6 (delta 5), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   914f349..5b597f1  master     -> origin/master
+Updating 914f349..5b597f1
+Fast-forward
+ web_flask/9-states.py                  | 2 +-
+ web_flask/templates/7-states_list.html | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  25238      0 --:--:-- --:--:-- --:--:-- 25317
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.9-states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "9-states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "/usr/lib/python3.4/runpy.py", line 170, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/lib/python3.4/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/9-states.py", line 29, in <module>
+    app.run(host='0.0.0.0', port=5000)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 944, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 1009, in run_simple
+    inner()
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 962, in inner
+    fd=fd,
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 805, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 698, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.4/socketserver.py", line 430, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.4/http/server.py", line 133, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.4/socketserver.py", line 444, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ curl -o 7-dump.sql "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/290/7-states_list.sql"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  8785  100  8785    0     0  23831      0 --:--:-- --:--:-- --:--:-- 23807
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cat 7-dump.sql | mysql -uroot -p
+Enter password: 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_flask.9-states
+/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py:507: Warning: (1681, "'@@SESSION.GTID_EXECUTED' is deprecated and will be removed in a future release.")
+  cursor.execute(statement, parameters)
+ * Serving Flask app "9-states" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Traceback (most recent call last):
+  File "/usr/lib/python3.4/runpy.py", line 170, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/lib/python3.4/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/vagrant/AirBnB_clone_v2/web_flask/9-states.py", line 29, in <module>
+    app.run(host='0.0.0.0', port=5000)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 944, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 1009, in run_simple
+    inner()
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 962, in inner
+    fd=fd,
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 805, in make_server
+    host, port, app, request_handler, passthrough_errors, ssl_context, fd=fd
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 698, in __init__
+    HTTPServer.__init__(self, server_address, handler)
+  File "/usr/lib/python3.4/socketserver.py", line 430, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.4/http/server.py", line 133, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.4/socketserver.py", line 444, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 6 (delta 5), reused 6 (delta 5), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   5b597f1..ff4d8b3  master     -> origin/master
+Updating 5b597f1..ff4d8b3
+Fast-forward
+ web_flask/10-hbnb_filters.py             | 6 +++---
+ web_flask/templates/10-hbnb_filters.html | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ 
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git fetch
+remote: Enumerating objects: 12, done.
+remote: Counting objects: 100% (12/12), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 9 (delta 3), reused 9 (delta 3), pack-reused 0
+Unpacking objects: 100% (9/9), done.
+From https://github.com/tlvb25/AirBnB_clone_v2
+   ff4d8b3..43766cf  master     -> origin/master
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ git pull
+Updating ff4d8b3..43766cf
+Fast-forward
+ web_flask/100-hbnb.py                  |  23 +++++++
+ web_flask/static/images/icon.png       | Bin 0 -> 2962 bytes
+ web_flask/static/images/icon_bath.png  | Bin 0 -> 704 bytes
+ web_flask/static/images/icon_bed.png   | Bin 0 -> 447 bytes
+ web_flask/static/images/icon_group.png | Bin 0 -> 1051 bytes
+ web_flask/static/images/logo.png       | Bin 0 -> 9876 bytes
+ web_flask/static/styles/3-footer.css   |  16 +++++
+ web_flask/static/styles/3-header.css   |  11 ++++
+ web_flask/static/styles/4-common.css   |  11 ++++
+ web_flask/static/styles/6-filters.css  |  77 ++++++++++++++++++++++
+ web_flask/static/styles/8-places.css   |  84 +++++++++++++++++++++++
+ web_flask/templates/100-hbnb.html      | 117 +++++++++++++++++++++++++++++++++
+ 12 files changed, 339 insertions(+)
+ create mode 100644 web_flask/100-hbnb.py
+ create mode 100644 web_flask/static/images/icon.png
+ create mode 100644 web_flask/static/images/icon_bath.png
+ create mode 100644 web_flask/static/images/icon_bed.png
+ create mode 100644 web_flask/static/images/icon_group.png
+ create mode 100644 web_flask/static/images/logo.png
+ create mode 100644 web_flask/static/styles/3-footer.css
+ create mode 100644 web_flask/static/styles/3-header.css
+ create mode 100644 web_flask/static/styles/4-common.css
+ create mode 100644 web_flask/static/styles/6-filters.css
+ create mode 100644 web_flask/static/styles/8-places.css
+ create mode 100644 web_flask/templates/100-hbnb.html
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2$ cd *flask
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ ls
+0-hello_route.py    3-python_route.py        8-cities_by_states.py  static
+100-hbnb.py         4-number_route.py        9-states.py            templates
+10-hbnb_filters.py  5-number_template.py     __init__.py
+1-hbnb_route.py     6-number_odd_or_even.py  __pycache__
+2-c_route.py        7-states_list.py         README.md
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ cd static/
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ls
+images  styles
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ cat /stylescat: /styles: No such file or directory
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ cat ./styles
+cat: ./styles: Is a directory
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ls /styles
+ls: cannot access /styles: No such file or directory
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ls ./styles/
+3-footer.css  3-header.css  4-common.css  6-filters.css  8-places.css
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ls -la /styles/
+ls: cannot access /styles/: No such file or directory
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ls -la ./styles/
+total 28
+drwxrwxr-x 2 vagrant vagrant 4096 Sep  6 00:22 .
+drwxrwxr-x 4 vagrant vagrant 4096 Sep  6 00:22 ..
+-rw-rw-r-- 1 vagrant vagrant  257 Sep  6 00:22 3-footer.css
+-rw-rw-r-- 1 vagrant vagrant  211 Sep  6 00:22 3-header.css
+-rw-rw-r-- 1 vagrant vagrant  218 Sep  6 00:22 4-common.css
+-rw-rw-r-- 1 vagrant vagrant 1335 Sep  6 00:22 6-filters.css
+-rw-rw-r-- 1 vagrant vagrant 1576 Sep  6 00:22 8-places.css
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ man mysqldump
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ ssh -i ~/.ssh/id_rsa ubuntu@35.237.156.23
+Welcome to Ubuntu 16.04 LTS (GNU/Linux 4.4.0-21-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+152 packages can be updated.
+1 update is a security update.
+
+
+*** System restart required ***
+Last login: Fri Aug 23 06:28:09 2019 from 148.64.110.16
+ubuntu@638-web-01:~$ mysql --version
+The program 'mysql' can be found in the following packages:
+ * mysql-client-core-5.7
+ * mariadb-client-core-10.0
+ * mysql-client-core-5.6
+Try: sudo apt install <selected package>
+ubuntu@638-web-01:~$ sudo apt install -y mysql-client-core-5.7
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libaio1
+The following NEW packages will be installed:
+  libaio1 mysql-client-core-5.7
+0 upgraded, 2 newly installed, 0 to remove and 157 not upgraded.
+Need to get 6,390 kB of archives.
+After this operation, 31.5 MB of additional disk space will be used.
+Get:1 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libaio1 amd64 0.3.110-2 [6,356 B]
+Get:2 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-client-core-5.7 amd64 5.7.27-0ubuntu0.16.04.1 [6,383 kB]
+Fetched 6,390 kB in 0s (35.5 MB/s)           
+Selecting previously unselected package libaio1:amd64.
+(Reading database ... 115541 files and directories currently installed.)
+Preparing to unpack .../libaio1_0.3.110-2_amd64.deb ...
+Unpacking libaio1:amd64 (0.3.110-2) ...
+Selecting previously unselected package mysql-client-core-5.7.
+Preparing to unpack .../mysql-client-core-5.7_5.7.27-0ubuntu0.16.04.1_amd64.deb ...
+Unpacking mysql-client-core-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Processing triggers for libc-bin (2.23-0ubuntu10) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up libaio1:amd64 (0.3.110-2) ...
+Setting up mysql-client-core-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Processing triggers for libc-bin (2.23-0ubuntu10) ...
+ubuntu@638-web-01:~$ mysql --version
+mysql  Ver 14.14 Distrib 5.7.27, for Linux (x86_64) using  EditLine wrapper
+ubuntu@638-web-01:~$ cd ~/.ssh/authorizedkeys
+-bash: cd: /home/ubuntu/.ssh/authorizedkeys: No such file or directory
+ubuntu@638-web-01:~$ cd ~/.ssh
+ubuntu@638-web-01:~/.ssh$ ls
+authorized_keys
+ubuntu@638-web-01:~/.ssh$ cat authorized_keys 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3YCYljkFsBJ08bSdFHrFeApC5tt9l6oTKkBL5u9gHo6oqfVptlvKIMEGondSDuM7uUaopqdrBOEAG5mhy9I5CtlpwWQeYZ0aUBI112ZrwBHrJj5FttnBdyADtHldgg3ZvErbEBfctoEFrRWJ9rxgovxPUCvcvVqyhEXWAXKamdHYyDu6gWD+6nf5L7aZx95hdmHqDYOjR0UhIHQjxkOZ69AXF6HnlgWbbFatuFWSoe8nyaAW7naZMaCcA29Dzy6ijWxTyCC7yoOY7yCA9hkyPAktBWiwRtlBzQhsFDo+NgT6MJyBDx37B6Y2EbFKjr3RM2zxHrXxhnFrM4Dfm27c7 vagrant@vagrant-ubuntu-trusty-64
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNdtrNGtTXe5Tp1EJQop8mOSAuRGLjJ6DW4PqX4wId/Kawz35ESampIqHSOTJmbQ8UlxdJuk0gAXKk3Ncle4safGYqM/VeDK3LN5iAJxf4kcaxNtS3eVxWBE5iF3FbIjOqwxw5Lf5sRa5yXxA8HfWidhbIG5TqKL922hPgsCGABIrXRlfZYeC0FEuPWdr6smOElSVvIXthRWp9cr685KdCI+COxlj1RdVsvIo+zunmLACF9PYdjB2s96Fn0ocD3c5SGLvDOFCyvDojSAOyE70ebIElnskKsDTGwfT4P6jh9OBzTyQEIS2jOaE5RQq4IB4DsMhvbjDSQrP0MdCLgwkN
+# Added by Google
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC84sahZFMWgKI+PzBsdtfYQF2PE/IQ4Aqb0MOC++9Suy93Qeaw/04dqFVQClVOnCh+6frtseWdTI8IUJYAUnjJJxMH1sSXnyfDs8QqyLyJ8abrrsHdebIrOfzPa7EnUDfTPZIlkrkEuwN28xD0BWNnlwk/58WeSEaY8LkqrfcPuh7wgQMPyQofurBEOGch5erNMiMSizoSDGScqzIdG8GrsF6A6r5szXYsR382tvJcd5+O0aRj/D3rFToJgdcDS/KMMcKL1vZZmTXwuRTA+xO+DR9Wq4LhDZHhy1ghuH7HBzWagKNn9usn4WvQsSltMWEHdMOt4nOmGHi/IsincdR9
+ubuntu@638-web-01:~/.ssh$ cd 
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ sudo mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ mysql
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ mysql -u
+mysql: [ERROR] mysql: option '-u' requires an argument
+ubuntu@638-web-01:~$ mysql -u root
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+ubuntu@638-web-01:~$ 1
+1: command not found
+ubuntu@638-web-01:~$ 
+ubuntu@638-web-01:~$ sudo apt-get --purge remove mysql-client mysql-server mysql-common
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Package 'mysql-client' is not installed, so not removed
+Package 'mysql-common' is not installed, so not removed
+Package 'mysql-server' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 157 not upgraded.
+ubuntu@638-web-01:~$ sudo apt-get autoremove
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+0 upgraded, 0 newly installed, 0 to remove and 157 not upgraded.
+ubuntu@638-web-01:~$ sudo rm -rf /etc/mysql/
+ubuntu@638-web-01:~$ mysel --version
+No command 'mysel' found, did you mean:
+ Command 'mysql' from package 'mariadb-client-core-10.0' (universe)
+ Command 'mysql' from package 'mysql-client-core-5.6' (universe)
+ Command 'mysql' from package 'mysql-client-core-5.7' (main)
+mysel: command not found
+ubuntu@638-web-01:~$ mysql --version
+mysql  Ver 14.14 Distrib 5.7.27, for Linux (x86_64) using  EditLine wrapper
+ubuntu@638-web-01:~$ sudo apt-get install mysql-server
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.0-5
+  libfcgi-perl libhtml-parser-perl libhtml-tagset-perl libhtml-template-perl
+  libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libtimedate-perl liburi-perl mysql-client-5.7
+  mysql-common mysql-server-5.7 mysql-server-core-5.7
+Suggested packages:
+  libdata-dump-perl libipc-sharedcache-perl libwww-perl mailx tinyca
+The following NEW packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.0-5
+  libfcgi-perl libhtml-parser-perl libhtml-tagset-perl libhtml-template-perl
+  libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libtimedate-perl liburi-perl mysql-client-5.7
+  mysql-common mysql-server mysql-server-5.7 mysql-server-core-5.7
+0 upgraded, 19 newly installed, 0 to remove and 158 not upgraded.
+Need to get 13.0 MB of archives.
+After this operation, 131 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+Get:1 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-common all 5.7.27-0ubuntu0.16.04.1 [14.7 kB]
+Get:2 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-client-5.7 amd64 5.7.27-0ubuntu0.16.04.1 [1,815 kB]
+Get:3 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server-core-5.7 amd64 5.7.27-0ubuntu0.16.04.1 [7,663 kB]
+Get:4 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libevent-core-2.0-5 amd64 2.0.21-stable-2ubuntu0.16.04.1 [70.6 kB]
+Get:5 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server-5.7 amd64 5.7.27-0ubuntu0.16.04.1 [2,754 kB]
+Get:6 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-tagset-perl all 3.20-2 [13.5 kB]
+Get:7 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 liburi-perl all 1.71-1 [76.9 kB]
+Get:8 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-parser-perl amd64 3.72-1 [86.1 kB]
+Get:9 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libcgi-pm-perl all 4.26-1 [185 kB]
+Get:10 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libfcgi-perl amd64 0.77-1build1 [32.3 kB]
+Get:11 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libcgi-fast-perl all 1:2.10-1 [10.2 kB]
+Get:12 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libencode-locale-perl all 1.05-1 [12.3 kB]
+Get:13 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-template-perl all 2.95-2 [60.4 kB]
+Get:14 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libtimedate-perl all 2.3000-2 [37.5 kB]
+Get:15 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libhttp-date-perl all 6.02-1 [10.4 kB]
+Get:16 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libio-html-perl all 1.001-1 [14.9 kB]
+Get:17 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 liblwp-mediatypes-perl all 6.02-1 [21.7 kB]
+Get:18 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial/main amd64 libhttp-message-perl all 6.11-1 [74.3 kB]
+Get:19 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server all 5.7.27-0ubuntu0.16.04.1 [10.2 kB]
+Fetched 13.0 MB in 0s (54.8 MB/s)   
+Preconfiguring packages ...
+Selecting previously unselected package mysql-common.
+(Reading database ... 115558 files and directories currently installed.)
+Preparing to unpack .../mysql-common_5.7.27-0ubuntu0.16.04.1_all.deb ...
+Unpacking mysql-common (5.7.27-0ubuntu0.16.04.1) ...
+Selecting previously unselected package mysql-client-5.7.
+Preparing to unpack .../mysql-client-5.7_5.7.27-0ubuntu0.16.04.1_amd64.deb ...
+Unpacking mysql-client-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Selecting previously unselected package mysql-server-core-5.7.
+Preparing to unpack .../mysql-server-core-5.7_5.7.27-0ubuntu0.16.04.1_amd64.deb ...
+Unpacking mysql-server-core-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Selecting previously unselected package libevent-core-2.0-5:amd64.
+Preparing to unpack .../libevent-core-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb ...
+Unpacking libevent-core-2.0-5:amd64 (2.0.21-stable-2ubuntu0.16.04.1) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for libc-bin (2.23-0ubuntu10) ...
+Setting up mysql-common (5.7.27-0ubuntu0.16.04.1) ...
+update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Selecting previously unselected package mysql-server-5.7.
+(Reading database ... 115709 files and directories currently installed.)
+Preparing to unpack .../mysql-server-5.7_5.7.27-0ubuntu0.16.04.1_amd64.deb ...
+Unpacking mysql-server-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Selecting previously unselected package libhtml-tagset-perl.
+Preparing to unpack .../libhtml-tagset-perl_3.20-2_all.deb ...
+Unpacking libhtml-tagset-perl (3.20-2) ...
+Selecting previously unselected package liburi-perl.
+Preparing to unpack .../liburi-perl_1.71-1_all.deb ...
+Unpacking liburi-perl (1.71-1) ...
+Selecting previously unselected package libhtml-parser-perl.
+Preparing to unpack .../libhtml-parser-perl_3.72-1_amd64.deb ...
+Unpacking libhtml-parser-perl (3.72-1) ...
+Selecting previously unselected package libcgi-pm-perl.
+Preparing to unpack .../libcgi-pm-perl_4.26-1_all.deb ...
+Unpacking libcgi-pm-perl (4.26-1) ...
+Selecting previously unselected package libfcgi-perl.
+Preparing to unpack .../libfcgi-perl_0.77-1build1_amd64.deb ...
+Unpacking libfcgi-perl (0.77-1build1) ...
+Selecting previously unselected package libcgi-fast-perl.
+Preparing to unpack .../libcgi-fast-perl_1%3a2.10-1_all.deb ...
+Unpacking libcgi-fast-perl (1:2.10-1) ...
+Selecting previously unselected package libencode-locale-perl.
+Preparing to unpack .../libencode-locale-perl_1.05-1_all.deb ...
+Unpacking libencode-locale-perl (1.05-1) ...
+Selecting previously unselected package libhtml-template-perl.
+Preparing to unpack .../libhtml-template-perl_2.95-2_all.deb ...
+Unpacking libhtml-template-perl (2.95-2) ...
+Selecting previously unselected package libtimedate-perl.
+Preparing to unpack .../libtimedate-perl_2.3000-2_all.deb ...
+Unpacking libtimedate-perl (2.3000-2) ...
+Selecting previously unselected package libhttp-date-perl.
+Preparing to unpack .../libhttp-date-perl_6.02-1_all.deb ...
+Unpacking libhttp-date-perl (6.02-1) ...
+Selecting previously unselected package libio-html-perl.
+Preparing to unpack .../libio-html-perl_1.001-1_all.deb ...
+Unpacking libio-html-perl (1.001-1) ...
+Selecting previously unselected package liblwp-mediatypes-perl.
+Preparing to unpack .../liblwp-mediatypes-perl_6.02-1_all.deb ...
+Unpacking liblwp-mediatypes-perl (6.02-1) ...
+Selecting previously unselected package libhttp-message-perl.
+Preparing to unpack .../libhttp-message-perl_6.11-1_all.deb ...
+Unpacking libhttp-message-perl (6.11-1) ...
+Selecting previously unselected package mysql-server.
+Preparing to unpack .../mysql-server_5.7.27-0ubuntu0.16.04.1_all.deb ...
+Unpacking mysql-server (5.7.27-0ubuntu0.16.04.1) ...
+Processing triggers for systemd (229-4ubuntu21.21) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up mysql-client-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Setting up mysql-server-core-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+Setting up libevent-core-2.0-5:amd64 (2.0.21-stable-2ubuntu0.16.04.1) ...
+Setting up mysql-server-5.7 (5.7.27-0ubuntu0.16.04.1) ...
+update-alternatives: using /etc/mysql/mysql.cnf to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Renaming removed key_buffer and myisam-recover options (if present)
+Setting up libhtml-tagset-perl (3.20-2) ...
+Setting up liburi-perl (1.71-1) ...
+Setting up libhtml-parser-perl (3.72-1) ...
+Setting up libcgi-pm-perl (4.26-1) ...
+Setting up libfcgi-perl (0.77-1build1) ...
+Setting up libcgi-fast-perl (1:2.10-1) ...
+Setting up libencode-locale-perl (1.05-1) ...
+Setting up libhtml-template-perl (2.95-2) ...
+Setting up libtimedate-perl (2.3000-2) ...
+Setting up libhttp-date-perl (6.02-1) ...
+Setting up libio-html-perl (1.001-1) ...
+Setting up liblwp-mediatypes-perl (6.02-1) ...
+Setting up libhttp-message-perl (6.11-1) ...
+Setting up mysql-server (5.7.27-0ubuntu0.16.04.1) ...
+Processing triggers for libc-bin (2.23-0ubuntu10) ...
+Processing triggers for systemd (229-4ubuntu21.21) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+ubuntu@638-web-01:~$ mysql -u -p
+ERROR 1045 (28000): Access denied for user '-p'@'localhost' (using password: NO)
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 5
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES
+    -> :
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':' at line 2
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.14 sec)
+
+mysql> CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> CREATE USER 'holberton_user'@'localhost' IDENTIFIED BY 'projectcorrection280hbtn'
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> grant replication slave on *.* to holberton_user@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ mysql -uholberton_user -p -e "SHOW GRANTS FOR 'holberton_user'@'localhost'"
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'holberton_user'@'localhost' (using password: YES)
+ubuntu@638-web-01:~$ mysql -uholberton_user -p -e "SHOW GRANTS FOR 'holberton_user'@'localhost'"
+Enter password: 
++----------------------------------------------------------------+
+| Grants for holberton_user@localhost                            |
++----------------------------------------------------------------+
+| GRANT REPLICATION SLAVE ON *.* TO 'holberton_user'@'localhost' |
++----------------------------------------------------------------+
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> grant replication client on *.* to holberton_user@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> revoke replication slave on *.* from holberton_user@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SHOW GRANTS FOR 'holberton_user'@'localhost'
+    -> ;
++-----------------------------------------------------------------+
+| Grants for holberton_user@localhost                             |
++-----------------------------------------------------------------+
+| GRANT REPLICATION CLIENT ON *.* TO 'holberton_user'@'localhost' |
++-----------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE tyrell_corp;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE tyrell_corp;
+Database changed
+mysql> CREATE TABLE nexus6 (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> INSERT INTO `nexus6` (`id`,`name`) VALUES (NULL, "Leon");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select from nexus6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from nexus6' at line 1
+mysql> select * from nexus6;
++----+------+
+| id | name |
++----+------+
+|  1 | Leon |
++----+------+
+1 row in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tyrell_corp        |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ mysql -uholberton_user -p -e "use tyrell_corp; select * from nexus6"
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'holberton_user'@'localhost' (using password: YES)
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use tyrell_corp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> grant select on tyrell_corp.nexus6 to holberton_user@localhost
+    -> ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> Write failed: Broken pipe
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask/static$ cd ..
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ ssh -i ~/.ssh/id_rsa ubuntu@35.237.156.23
+^C
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ ssh -i ~/.ssh/id_rsa ubuntu@35.237.156.23
+ssh: connect to host 35.237.156.23 port 22: Connection timed out
+vagrant@vagrant-ubuntu-trusty-64:~/AirBnB_clone_v2/web_flask$ ssh -i ~/.ssh/id_rsa ubuntu@35.237.156.23
+Welcome to Ubuntu 16.04 LTS (GNU/Linux 4.4.0-21-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+153 packages can be updated.
+1 update is a security update.
+
+New release '18.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+*** System restart required ***
+Last login: Fri Sep  6 00:52:52 2019 from 148.64.110.16
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tyrell_corp        |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from mysql.user;
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+| Host      | User             | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | ssl_type | ssl_cipher | x509_issuer | x509_subject | max_questions | max_updates | max_connections | max_user_connections | plugin                | authentication_string                     | password_expired | password_last_changed | password_lifetime | account_locked |
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+| localhost | root             | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B | N                | 2019-09-06 01:49:37   |              NULL | N              |
+| localhost | mysql.session    | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | Y          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | N                | 2019-09-06 01:49:37   |              NULL | Y              |
+| localhost | mysql.sys        | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | N                | 2019-09-06 01:49:37   |              NULL | Y              |
+| localhost | debian-sys-maint | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *FC9A39CDACD79809743B4E4495D895A55040DC2F | N                | 2019-09-06 01:49:37   |              NULL | N              |
+| localhost | newuser          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19 | N                | 2019-09-06 01:56:21   |              NULL | N              |
+| localhost | holberton_user   | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | Y                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *D697DA473B275C8791293FACFFFFA4EB77A166A4 | N                | 2019-09-06 01:58:02   |              NULL | N              |
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| db                        |
+| engine_cost               |
+| event                     |
+| func                      |
+| general_log               |
+| gtid_executed             |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| innodb_index_stats        |
+| innodb_table_stats        |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| server_cost               |
+| servers                   |
+| slave_master_info         |
+| slave_relay_log_info      |
+| slave_worker_info         |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| user                      |
++---------------------------+
+31 rows in set (0.00 sec)
+
+mysql> select * from mysql.user;
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+| Host      | User             | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | ssl_type | ssl_cipher | x509_issuer | x509_subject | max_questions | max_updates | max_connections | max_user_connections | plugin                | authentication_string                     | password_expired | password_last_changed | password_lifetime | account_locked |
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+| localhost | root             | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B | N                | 2019-09-06 01:49:37   |              NULL | N              |
+| localhost | mysql.session    | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | Y          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | N                | 2019-09-06 01:49:37   |              NULL | Y              |
+| localhost | mysql.sys        | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE | N                | 2019-09-06 01:49:37   |              NULL | Y              |
+| localhost | debian-sys-maint | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *FC9A39CDACD79809743B4E4495D895A55040DC2F | N                | 2019-09-06 01:49:37   |              NULL | N              |
+| localhost | newuser          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19 | N                | 2019-09-06 01:56:21   |              NULL | N              |
+| localhost | holberton_user   | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | Y                | N                | N              | N                   | N                  | N                | N          | N            | N                      |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | *D697DA473B275C8791293FACFFFFA4EB77A166A4 | N                | 2019-09-06 01:58:02   |              NULL | N              |
++-----------+------------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-------------------------------------------+------------------+-----------------------+-------------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| debian-sys-maint |
+| holberton_user   |
+| mysql.session    |
+| mysql.sys        |
+| newuser          |
+| root             |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> create user replica_user@% indentified by 'projectcorrection280hbtn';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '% indentified by 'projectcorrection280hbtn'' at line 1
+mysql> create user 'replica_user'@'%' indentified by 'projectcorrection280hbtn'; 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'indentified by 'projectcorrection280hbtn'' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tyrell_corp        |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use mysql;
+Database changed
+mysql> CREATE USER 'replica_user'@'%' IDENTIFIED BY 'projectcorrection280hbtn';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> grant replication slave on *.* to 'replica_user'@'%';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> GRANT SELECT mysql.user TO holberton_user@projectcorrection280hbtn;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql.user TO holberton_user@projectcorrection280hbtn' at line 1
+mysql> GRANT SELECT ON mysql.user TO holberton_user@projectcorrection280hbtn;
+ERROR 1133 (42000): Can't find any matching row in the user table
+mysql> GRANT SELECT ON mysql.user TO holberton_user@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ mysql -uholberton_user -p -e 'SELECT user, Repl_slave_priv FROM mysql.user'
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'holberton_user'@'localhost' (using password: YES)
+ubuntu@638-web-01:~$ mysql -uholberton_user -p -e 'SELECT user, Repl_slave_priv FROM mysql.user'
+Enter password: 
++------------------+-----------------+
+| user             | Repl_slave_priv |
++------------------+-----------------+
+| root             | Y               |
+| mysql.session    | N               |
+| mysql.sys        | N               |
+| debian-sys-maint | Y               |
+| newuser          | N               |
+| holberton_user   | N               |
+| replica_user     | Y               |
++------------------+-----------------+
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> drop user newuser;
+ERROR 1396 (HY000): Operation DROP USER failed for 'newuser'@'%'
+mysql> drop user newuser@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT user, Repl_slave_priv FROM mysql.user
+    -> ;
++------------------+-----------------+
+| user             | Repl_slave_priv |
++------------------+-----------------+
+| root             | Y               |
+| mysql.session    | N               |
+| mysql.sys        | N               |
+| debian-sys-maint | Y               |
+| holberton_user   | N               |
+| replica_user     | Y               |
++------------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ sudo nano /etc/mysql/my.cnf
+ubuntu@638-web-01:~$ sudo nano /etc/mysql/mysqld.cnf
+ubuntu@638-web-01:~$ sudo apt-get install -y mysql-client
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  mysql-client
+0 upgraded, 1 newly installed, 0 to remove and 158 not upgraded.
+Need to get 10.1 kB of archives.
+After this operation, 110 kB of additional disk space will be used.
+Get:1 http://us-east1.gce.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-client all 5.7.27-0ubuntu0.16.04.1 [10.1 kB]
+Fetched 10.1 kB in 0s (265 kB/s)  
+Selecting previously unselected package mysql-client.
+(Reading database ... 116069 files and directories currently installed.)
+Preparing to unpack .../mysql-client_5.7.27-0ubuntu0.16.04.1_all.deb ...
+Unpacking mysql-client (5.7.27-0ubuntu0.16.04.1) ...
+Setting up mysql-client (5.7.27-0ubuntu0.16.04.1) ...
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 24
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tyrell_corp        |
++--------------------+
+5 rows in set (0.02 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ sudo nano /etc/mysql/my.cnf
+ubuntu@638-web-01:~$ sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+ubuntu@638-web-01:~$ sudo service mysql restart
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.27-0ubuntu0.16.04.1-log (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> GRANT REPLICATION SLAVE ON *.*'@'%' IDENTIFIED BY 'password' 
+
+mysql> GRANT REPLICATION SLAVE ON *.* TO 'replica_user'@'%' IDENTIFIED BY 'projectcorrection280hbtn';
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tyrell_corp        |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use tyrell_corp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> FLUSH TABLES WITH READ LOCK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SHOW MASTER STATUS;
++------------------+----------+--------------+------------------+-------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++------------------+----------+--------------+------------------+-------------------+
+| mysql-bin.000001 |      597 |              |                  |                   |
++------------------+----------+--------------+------------------+-------------------+
+1 row in set (0.00 sec)
+
+mysql> exit
+Bye
+ubuntu@638-web-01:~$ mysqldump -u root -p --opt tyrell_corp > tyrell_corp.sql
+Enter password: 
+ubuntu@638-web-01:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 5
+Server version: 5.7.27-0ubuntu0.16.04.1-log (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use tyrell_corp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> UNLOCK TABLES;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> QUIT;
+Bye
+ubuntu@638-web-01:~$ sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+  GNU nano 2.5.3      File: /etc/mysql/mysql.conf.d/mysqld.cnf                  
+
+# 
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Read the manual for more InnoDB related options. There are many!
+#
+# * Security Features
+#
+# Read the manual, too, if you want chroot!
+# chroot = /var/lib/mysql/
+#
+# For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
+# 
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
