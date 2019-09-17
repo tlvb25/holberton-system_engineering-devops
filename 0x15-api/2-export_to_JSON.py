@@ -6,8 +6,7 @@ from sys import argv
 
 
 if __name__ == "__main__":
-    response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                            .format(argv[1]))
+    response = requests.get('https://jsonplaceholder.typicode.com/users')
 
     name_obj = response.json()
 
