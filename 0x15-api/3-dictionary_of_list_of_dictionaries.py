@@ -25,7 +25,7 @@ if __name__ == "__main__":
                 d = {"username": emp_name, "task": task_items.get('title'),
                      "completed": task_items.get('completed')}
                 tasks_items.append(d)
-        json_f[usrid] = tasks_items
+        jsonDict[usrid] = tasks_items
 
     with open("todo_all_employees.json", mode='w') as json_file:
         json.dump(jsonDict, json_file)
