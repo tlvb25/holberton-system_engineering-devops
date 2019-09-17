@@ -1,31 +1,36 @@
 #!/usr/bin/python3
-""" Dictionary of list of dictionaries """
+""" Export to JSON """
 import json
 import requests
 from sys import argv
 
 
 if __name__ == "__main__":
-    response = requests.get('https://jsonplaceholder.typicode.com/users')
+    response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                            .format(argv[1]))
 
     name_obj = response.json()
+
+    emp_name = name_obj.get('username')
+
+    usrid = name_obj.get('id')
 
     response = requests.get('https://jsonplaceholder.typicode.com/todos')
 
     tasks_obj = response.json()
 
-    jsonDict = {}
+    tasks_items = []
+    completed = []
 
-    for n in name_obj:
-        usrid = n.get('id')
-        emp_name = n.get('username')
-        tasks_items = []
-        for task_items in tasks_obj:
-            if task_items.get('userId') == usrid:
-                d = {"username": emp_name, "task": task_items.get('title'),
-                     "completed": task_items.get('completed')}
-                tasks_items.append(d)
-        json_f[usrid] = tasks_items
+    for task in tasks_obj:
+        if task.get('userId') == usrid:
+            completed.append(task.get('completed'))
+            tasks_items.append(task.get('title'))
 
-    with open("todo_all_employees.json", mode='w') as json_file:
-        json.dump(jsonDict, json_file)
+    taskList = [{'username': emp_name, 'completed': completed[i], 'task': e}
+                for i, e in enumerate(tasks_items)]
+
+    json_obj = {usrid: taskList}
+
+    with open('{}.json'.format(argv[1]), mode='w') as jsonFile:
+        json.dump({usrid: taskList}, jsonFile)
