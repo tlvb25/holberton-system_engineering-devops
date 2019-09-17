@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Gather data from an API"""
+"""Export to CSV"""
 import csv
 import requests
 from sys import argv
@@ -32,5 +32,5 @@ if __name__ == "__main__":
     with open('{}.csv'.format(argv[1]), mode='w') as csv_file:
         writer = csv.writer(csv_file, delimiter=',', quotechar='"',
                             quoting=csv.QUOTE_ALL)
-        for i, e in enumerate(tasks_items):
-            writer.writerow([usrid, emp_name, completed[i], e])
+        for x, y in enumerate(tasks_items):
+            writer.writerow([usrid, emp_name, completed[x], y])
