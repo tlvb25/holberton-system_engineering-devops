@@ -3,7 +3,7 @@ from sys import argv
 import requests
 
 if __name__ == "__main__":
-    response = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
+    response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
                      .format(argv[1]))
 
     name_obj = response.json()
