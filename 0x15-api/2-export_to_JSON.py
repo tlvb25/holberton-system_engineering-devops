@@ -31,7 +31,7 @@ if __name__ == "__main__":
     taskList = [{'username': emp_name, 'completed': completed[i], 'task': e}
          for i, e in enumerate(tasks_items)]
 
-    json_dict = {usrid: taskList}
+    json_obj = {usrid: taskList}
 
     with open('{}.json'.format(argv[1]), mode='w') as jsonFile:
         json.dump({usrid: taskList}, jsonFile)
