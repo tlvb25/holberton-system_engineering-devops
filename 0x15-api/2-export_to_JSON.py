@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Export to JSON """
+""" Dictionary of list of dictionaries """
 import json
 import requests
 from sys import argv
@@ -11,27 +11,22 @@ if __name__ == "__main__":
 
     name_obj = response.json()
 
-    emp_name = name_obj.get('username')
-
-    usrid = name_obj.get('id')
-
-    completed = []
-
     response = requests.get('https://jsonplaceholder.typicode.com/todos')
 
     tasks_obj = response.json()
 
-    tasks_items = []
+    jsonDict = {}
 
-    for task in tasks_obj:
-        if task.get('userId') == usrid:
-            completed.append(task.get('completed'))
-            tasks_items.append(task.get('title'))
+    for n in name_obj:
+        usrid = n.get('id')
+        emp_name = n.get('username')
+        tasks = []
+        for task in tasks_obj:
+            if task.get('userId') == usrid:
+                d = {"username": emp_name, "task": task.get('title'),
+                     "completed": task.get('completed')}
+                tasks.append(d)
+        json_f[usrid] = tasks
 
-    taskList = [{'username': emp_name, 'completed': completed[i], 'task': e}
-                for i, e in enumerate(tasks_items)]
-
-    json_obj = {usrid: taskList}
-
-    with open('{}.json'.format(argv[1]), mode='w') as jsonFile:
-        json.dump({usrid: taskList}, jsonFile)
+    with open("todo_all_employees.json", mode='w') as file:
+        json.dump(jsonDict, file)
