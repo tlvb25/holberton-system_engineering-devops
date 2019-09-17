@@ -1,26 +1,35 @@
 #!/usr/bin/python3
 """Gathering data from API placeholder"""
-import csv
 import requests
-import sys
+from sys import argv
 
 
 if __name__ == "__main__":
-    r = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                     .format(sys.argv[1]))
-    d = r.json()
-    name = d.get('username')
-    user_id = d.get('id')
-    r = requests.get('https://jsonplaceholder.typicode.com/todos')
-    d_todos = r.json()
-    titles = []
-    completed = []
-    for i in d_todos:
-        if i.get('userId') == user_id:
-            titles.append(i.get('title'))
-            completed.append(i.get('completed'))
-    with open('{}.csv'.format(sys.argv[1]), mode='w') as csv_file:
-        writer = csv.writer(csv_file, delimiter=',', quotechar='"',
-                            quoting=csv.QUOTE_ALL)
-        for i, e in enumerate(titles):
-            writer.writerow([user_id, name, completed[i], e])
+    response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                            .format(argv[1]))
+
+    name_obj = response.json()
+
+    emp_name = name_obj.get('name')
+
+    usrid = name_obj.get('id')
+
+    response = requests.get('https://jsonplaceholder.typicode.com/todos')
+    tasks_items = []
+    tasks_obj = response.json()
+
+
+    completed = 0
+    tasks = 0
+    
+    for task in tasks_obj:
+        if task.get('userId') == usrid:
+            task += 1
+            if task.get('completed'):
+                completed += 1
+                tasks_items.append(task.get('title'))
+    print("Employee {} is done with tasks({}/{}):"
+          .format(emp_name, completed, tasks))
+
+    for t in tasks_items:
+        print('\t', t)
