@@ -3,10 +3,10 @@ from sys import argv
 import requests
 
 if __name__ == "__main__":
-    response = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
+    r = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
                      .format(argv[1]))
 
-    json_obj = response.json()
+    json_obj = r.json()
 
     emp_name = json_obj.get('name')
 
