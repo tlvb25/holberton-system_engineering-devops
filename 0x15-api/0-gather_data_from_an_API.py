@@ -4,7 +4,7 @@ import requests
 
 if __name__ == "__main__":
     response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                     .format(argv[1]))
+                            .format(argv[1]))
 
     name_obj = response.json()
 
@@ -27,8 +27,8 @@ if __name__ == "__main__":
             if task.get('completed'):
                 completed += 1
                 tasks_items.append(task.get('title'))
-    print ('Employee {} is done with tasks({}/{}):'
-           .format(emp_name, completed, tasks))
+    print('Employee {} is done with tasks({}/{}):'
+          .format(emp_name, completed, tasks))
 
     for t in tasks_items:
         print('\t', t)
