@@ -27,8 +27,11 @@ if __name__ == "__main__":
         if task.get('userId') == usrid:
             completed.append(task.get('completed'))
             tasks_items.append(task.get('title'))
-    for i, e in enumerate(tasks_items):
-        l = [{'username': emp_name, 'completed': completed[i], 'task': e}]
-    json_dict = {usrid: l}
-    with open('{}.json'.format(argv[1]), mode='w') as json_file:
-        json.dump({usrid: l}, json_file)
+
+    taskList = [{'username': emp_name, 'completed': completed[i], 'task': e}
+         for i, e in enumerate(tasks_items)]
+
+    json_dict = {usrid: taskList}
+
+    with open('{}.json'.format(argv[1]), mode='w') as jsonFile:
+        json.dump({usrid: taskList}, jsonFile)
