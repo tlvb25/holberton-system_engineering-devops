@@ -29,7 +29,7 @@ if __name__ == "__main__":
             tasks_items.append(task.get('title'))
 
     taskList = [{'username': emp_name, 'completed': completed[i], 'task': e}
-         for i, e in enumerate(tasks_items)]
+                for i, e in enumerate(tasks_items)]
 
     json_obj = {usrid: taskList}
 
