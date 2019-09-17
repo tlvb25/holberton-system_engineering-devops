@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """Gather data from an API"""
-from sys import argv
 import requests
+from sys import argv
+
 
 if __name__ == "__main__":
     response = requests.get('https://jsonplaceholder.typicode.com/users/{}'
