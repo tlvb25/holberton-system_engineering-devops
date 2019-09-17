@@ -3,20 +3,28 @@ from sys import argv
 import requests
 
 if __name__ == "__main__":
-    r = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
+    response = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
                      .format(argv[1]))
 
-    json_obj = r.json()
+    name_obj = response.json()
 
-    emp_name = json_obj.get('name')
+    emp_name = name_obj.get('name')
 
-    tasks, completed = 0, 0
+    usrid = name_obj.get('id')
+
+    tasks = 0
+    completed = 0
+
+    response = requests.get('https://jsonplaceholder.typicode.com/todos')
+
+    tasks_obj = response.json()
 
     tasks_items = []
 
-    for task in json_obj:
-        tasks += 1
-        if task.get('completed'):
+    for task in tasks_obj:
+        if task.get('userId') == usrid:
+            tasks += 1
+            if task.get('completed'):
                 completed += 1
                 tasks_items.append(task.get('title'))
     print ('Employee {} is done with tasks({}/{}}):'
