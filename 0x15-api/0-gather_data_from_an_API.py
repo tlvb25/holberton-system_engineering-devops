@@ -18,10 +18,9 @@ if __name__ == "__main__":
     tasks_items = []
     tasks_obj = response.json()
 
-
     completed = 0
     tasks = 0
-    
+
     for task in tasks_obj:
         if task.get('userId') == usrid:
             task += 1
