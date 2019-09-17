@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Gather data from an API"""
+import csv
 import requests
 from sys import argv
 
@@ -10,12 +11,12 @@ if __name__ == "__main__":
 
     name_obj = response.json()
 
-    emp_name = name_obj.get('name')
+    emp_name = name_obj.get('username')
 
     usrid = name_obj.get('id')
 
-    tasks = 0
-    completed = 0
+
+    completed = []
 
     response = requests.get('https://jsonplaceholder.typicode.com/todos')
 
@@ -25,12 +26,11 @@ if __name__ == "__main__":
 
     for task in tasks_obj:
         if task.get('userId') == usrid:
-            tasks += 1
-            if task.get('completed'):
-                completed += 1
-                tasks_items.append(task.get('title'))
-    print('Employee {} is done with tasks({}/{}):'
-          .format(emp_name, completed, tasks))
+            completed.append(task.get('completed'))
+            tasks_items.append(task.get('title'))
 
-    for t in tasks_items:
-        print('\t', t)
+    with open('{}.csv'.format(argv[1]), mode='w') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',', quotechar='"',
+                            quoting=csv.QUOTE_ALL)
+        for i, e in enumerate(tasks_items):
+            writer.writerow([usrid, emp_name, completed[i], e])
