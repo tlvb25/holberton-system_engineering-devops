@@ -1,31 +1,29 @@
 #!/usr/bin/python3
-""" Dictionary of list of dictionaries """
+"""Dictionary of list of dictionaries"""
+
 import json
 import requests
 from sys import argv
 
 
 if __name__ == "__main__":
-    response = requests.get('https://jsonplaceholder.typicode.com/users')
+    """Python script that, using this REST API, for a given employee ID, returns
+       information about his/her TODO list progress."""
 
-    name_obj = response.json()
+    user_request = requests.get("https://jsonplaceholder.typicode.com/users")
+    user_request = user_request.json()
+    todo = requests.get("https://jsonplaceholder.typicode.com/todos").json()
 
-    response = requests.get('https://jsonplaceholder.typicode.com/todos')
-
-    tasks_obj = response.json()
-
-    jsonDict = {}
-
-    for n in name_obj:
-        usrid = n.get('id')
-        emp_name = n.get('username')
-        tasks_items = []
-        for task_items in tasks_obj:
-            if task_items.get('userId') == usrid:
-                d = {"username": emp_name, "task": task_items.get('title'),
-                     "completed": task_items.get('completed')}
-                tasks_items.append(d)
-        json_f[usrid] = tasks_items
-
-    with open("todo_all_employees.json", mode='w') as json_file:
-        json.dump(jsonDict, json_file)
+    json_f = {}
+    for u_req in user_request:
+        u_id = u_req.get('id')
+        name = u_req.get('username')
+        tasks = []
+        for task in todo:
+            if task.get('userId') == u_id:
+                dic = {"username": name, "task": task.get('title'),
+                       "completed": task.get('completed')}
+                tasks.append(dic)
+        json_f[u_id] = tasks
+    with open("todo_all_employees.json", mode='w') as file:
+        json.dump(json_f, file)
