@@ -3,6 +3,6 @@ from sys import argv
 import requests
 
 if __name__ == "__main__":
-    output = fetch('https://jsonplaceholder.typicode.com/users/argv[1]/todos')
-    .then(response => response.json())
-    .then(json => console.log(json))
+    r = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                     .format(sys.argv[1]))
+print (r)
