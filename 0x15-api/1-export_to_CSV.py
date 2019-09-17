@@ -15,7 +15,6 @@ if __name__ == "__main__":
 
     usrid = name_obj.get('id')
 
-
     completed = []
 
     response = requests.get('https://jsonplaceholder.typicode.com/todos')
