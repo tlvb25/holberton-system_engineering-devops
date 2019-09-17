@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     for task in tasks_obj:
         if task.get('userId') == usrid:
-            task += 1
+            tasks += 1
             if task.get('completed'):
                 completed += 1
                 tasks_items.append(task.get('title'))
