@@ -6,30 +6,27 @@ import requests
 
 
 def recurse(subreddit, hot_list=[], after=""):
-    """recursive function that queries the Reddit API and returns a list
-       containing the titles of all hot articles for a given subreddit. If no
-       results are found for the given subreddit, the function should
-       return None."""
-
-    h = {"User-Agent": "Holberton-User"}
-
-    params = {"after": after}
-
+    """2. Recurse it! """
     base_url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
 
-    request = requests.get(base_url, params=params,
-                           headers=h, allow_redirects=False)
+    header = {'User-Agent': 'Reddit API test'}
 
-    if request.status_code >= 300:
-        return (None)
+    params = {'limit': 200, 'after': after}
+    r = requests.get(base_url, headers=header,
+                     allow_redirects=False, params=params)
 
-    req_url = req_url.json()
+    json_dict = r.json()
+
+    if json_dict.get('error', 200) == 404:
+        return None
 
     if after is None:
-        return (hot_list)
+        return hot_list
 
-    listing = req_url.get('data').get('children')
-    for dic in listing:
+    results = json_dict.get('data').get('children')
+
+    for dic in results:
         hot_list.append(dic.get('data').get('title'))
-    p = req_url.get('data').get('after')
+        
+    p = json_dict.get('data').get('after')
     return recurse(subreddit, hot_list, p)
