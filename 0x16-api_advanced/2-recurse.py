@@ -27,6 +27,6 @@ def recurse(subreddit, hot_list=[], after=""):
 
     for dic in results:
         hot_list.append(dic.get('data').get('title'))
-        
+
     p = json_dict.get('data').get('after')
     return recurse(subreddit, hot_list, p)
