@@ -16,4 +16,4 @@ def number_of_subscribers(subreddit):
     if json_dict.get('error', 200) == 404:
         return 0
     return json_dict.get('data').get('children')[0]\
-                         .get('data').get('subreddit_subscribers')
+                    .get('data').get('subreddit_subscribers')
