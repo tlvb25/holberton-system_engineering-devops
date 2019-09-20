@@ -11,7 +11,8 @@ def top_ten(subreddit):
 
     params = {'limit': 10}
 
-    response = requests.get(url, headers=header, allow_redirects=False, params=params)
+    response = requests.get(url, headers=header,
+                            allow_redirects=False, params=params)
 
     json_dict = response.json()
 
